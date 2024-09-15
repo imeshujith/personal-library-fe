@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   backend:
     build:
-      context: ./personal-library-be
+      context: ../backend
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
@@ -12,7 +10,7 @@ services:
 
   frontend:
     build:
-      context: ./personal-library-fe
+      context: .
       dockerfile: Dockerfile
     ports:
       - "80:80"
