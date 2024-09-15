@@ -16,9 +16,6 @@ COPY . .
 # Use a lightweight NGINX server to serve the React app
 FROM nginx:alpine
 
-# Remove the default NGINX config
-RUN rm /etc/nginx/conf.d/default.conf
-
 # Copy the custom NGINX config file to the container
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
