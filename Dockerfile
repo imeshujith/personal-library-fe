@@ -13,6 +13,8 @@ RUN npm install
 # Copy the rest of the application code into the container
 COPY . .
 
+RUN npm run build
+
 # Use a lightweight NGINX server to serve the React app
 FROM nginx:alpine
 
