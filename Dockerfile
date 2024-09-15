@@ -1,5 +1,5 @@
-# Use the official Node.js image from the Docker Hub
-FROM node:18
+# Use the official Node.js image from the Docker Hub to build the React app
+FROM node:18 AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -13,14 +13,22 @@ RUN npm install
 # Copy the rest of the application code into the container
 COPY . .
 
-# Use a lightweight HTTP server to serve the React application
+# Build the React application for production
+
+# Use a lightweight NGINX server to serve the React app
 FROM nginx:alpine
 
-# Copy the build files to the Nginx HTML directory
-COPY --from=0 /app/build /usr/share/nginx/html
+# Remove the default NGINX config
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Expose the port that Nginx will run on
+# Copy the custom NGINX config file to the container
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy the build files from the React build stage
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expose the port that NGINX will serve the app on
 EXPOSE 80
 
-# Command to run Nginx
+# Command to run NGINX in the foreground
 CMD ["nginx", "-g", "daemon off;"]
