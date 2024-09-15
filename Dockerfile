@@ -16,9 +16,6 @@ COPY . .
 # Use a lightweight NGINX server to serve the React app
 FROM nginx:alpine
 
-# Copy the custom NGINX config file to the container
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 # Copy the build files from the React build stage
 COPY --from=build /app/build /usr/share/nginx/html
 
